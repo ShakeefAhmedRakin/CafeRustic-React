@@ -15,9 +15,10 @@ const Navbar = () => {
       </li>
     </>
   );
+
   return (
     <>
-      <div className="bg-opacity-70 bg-gray-900 z-50 fixed w-full top-0">
+      <div className="bg-secondary2 w-full">
         <div className="container mx-auto max-w-screen-2xl font-Inter">
           <div className="navbar">
             <div className="navbar-start">

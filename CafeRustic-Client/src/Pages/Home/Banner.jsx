@@ -15,19 +15,37 @@ const Banner = () => {
       >
         <div>
           <img
-            src="/src/assets/banner/1.jpg"
+            src="/src/assets/banner/01.jpg"
             className="aspect-video object-cover max-h-[750px]"
           />
         </div>
         <div>
           <img
-            src="/src/assets/banner/2.jpg"
+            src="/src/assets/banner/02.jpg"
             className="aspect-video object-cover max-h-[750px]"
           />
         </div>
         <div>
           <img
-            src="/src/assets/banner/3.jpg"
+            src="/src/assets/banner/03.png"
+            className="aspect-video object-cover max-h-[750px]"
+          />
+        </div>
+        <div>
+          <img
+            src="/src/assets/banner/04.jpg"
+            className="aspect-video object-cover max-h-[750px]"
+          />
+        </div>
+        <div>
+          <img
+            src="/src/assets/banner/05.png"
+            className="aspect-video object-cover max-h-[750px]"
+          />
+        </div>
+        <div>
+          <img
+            src="/src/assets/banner/06.png"
             className="aspect-video object-cover max-h-[750px]"
           />
         </div>
