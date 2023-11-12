@@ -1,7 +1,7 @@
 const SectionTitle = ({ mainText, subText }) => {
   return (
     <>
-      <div className="max-w-[410px] mx-auto my-10 space-y-4">
+      <div className="max-w-[410px] mx-auto mb-10 space-y-4">
         <p className="italic text-xs md:text-lg text-primary text-center font-Inter">
           ---{subText}---
         </p>
