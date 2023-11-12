@@ -1,6 +1,9 @@
 import About from "./About";
 import Banner from "./Banner";
 import Category from "./Category";
+import Contact from "./Contact";
+import Menu from "./Menu";
+import Recommendation from "./Recommendation";
 
 const Home = () => {
   return (
@@ -12,6 +15,15 @@ const Home = () => {
         </div>
         <div className="my-14">
           <About></About>
+        </div>
+        <div className="my-14">
+          <Menu></Menu>
+        </div>
+        <div className="my-14">
+          <Contact></Contact>
+        </div>
+        <div className="my-14">
+          <Recommendation></Recommendation>
         </div>
       </div>
     </>
