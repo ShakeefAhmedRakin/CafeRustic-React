@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
@@ -10,6 +11,9 @@ const Register = () => {
   };
   return (
     <>
+      <Helmet>
+        <title>Register</title>
+      </Helmet>
       <div className="mx-auto relative">
         <img
           src="/src/assets/form/1.jpg"

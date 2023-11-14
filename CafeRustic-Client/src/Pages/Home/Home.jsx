@@ -6,10 +6,14 @@ import Menu from "./Menu";
 import Location from "./Location";
 import { Parallax } from "react-parallax";
 import Testimonial from "./Testimonial";
+import { Helmet } from "react-helmet-async";
 
 const Home = () => {
   return (
     <>
+      <Helmet>
+        <title>Cafe Rustic</title>
+      </Helmet>
       <Banner></Banner>
       <div className="container mx-auto max-w-screen-2xl px-5">
         <div className="my-14">

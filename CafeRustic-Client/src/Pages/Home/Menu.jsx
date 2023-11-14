@@ -1,15 +1,10 @@
-import { useEffect, useState } from "react";
 import SectionTitle from "../../Components/SectionTitle";
-import axios from "axios";
 import MenuItem from "../../Components/MenuItem";
+import useMenu from "../../hooks/useMenu";
 
 const Menu = () => {
-  const [menu, setMenu] = useState([]);
-  useEffect(() => {
-    axios.get("menu.json").then((res) => {
-      setMenu(res.data.filter((item) => item.category === "popular"));
-    });
-  }, []);
+  const [menu] = useMenu();
+  const showOnHome = menu.filter((item) => item.show_on_home === true);
 
   return (
     <>
@@ -18,9 +13,9 @@ const Menu = () => {
         subText={"Check it out"}
       ></SectionTitle>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {menu.map((item) => (
-          <MenuItem item={item} key={item._id}></MenuItem>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {showOnHome.map((item) => (
+          <MenuItem item={item} showButton={false} key={item._id}></MenuItem>
         ))}
       </div>
 
