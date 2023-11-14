@@ -1,12 +1,15 @@
+import { Parallax } from "react-parallax";
+
 const About = () => {
   return (
     <>
-      <div className="relative p-4 md:p-24">
-        <img
-          src="/src/assets/about/1.jpg"
-          className="absolute w-full h-full object-cover -z-10 inset-0"
-        />
-        <div className="z-10 bg-white py-16">
+      <Parallax
+        bgImage={"/src/assets/about/1.jpg"}
+        strength={500}
+        className="p-4 md:p-24"
+        bgImageStyle={{ "object-fit": "cover" }}
+      >
+        <div className="bg-white py-16">
           <div className="w-[80%] mx-auto">
             <h1 className="font-Cinzel text-2xl md:text-4xl text-center">
               Cafe Rustic
@@ -21,7 +24,7 @@ const About = () => {
             </p>
           </div>
         </div>
-      </div>
+      </Parallax>
     </>
   );
 };
