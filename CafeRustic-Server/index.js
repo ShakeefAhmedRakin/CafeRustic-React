@@ -25,16 +25,39 @@ async function run() {
       .db("CafeRusticDB")
       .collection("menuCollection");
 
-    await client.db("admin").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
+    const foodCartCollection = client
+      .db("CafeRusticDB")
+      .collection("foodCartCollection");
 
+    // FOOD ITEM RELATED API
+    // GET ALL FOOD ITEMS
     app.get("/menuitems", async (req, res) => {
       const cursor = menuCollection.find();
       const result = await cursor.toArray();
       res.send(result);
     });
+
+    // FOOD CART RELATED API
+
+    // FOOD CART GET ALL API
+    app.get("/foodcart", async (req, res) => {
+      const email = req.query.email;
+      const query = { email: email };
+      const result = await foodCartCollection.find(query).toArray();
+      res.send(result);
+    });
+
+    // FOOD CART POST API
+    app.post("/foodcart", async (req, res) => {
+      const foodItem = req.body;
+      const result = await foodCartCollection.insertOne(foodItem);
+      res.send(result);
+    });
+
+    await client.db("admin").command({ ping: 1 });
+    console.log(
+      "Pinged your deployment. You successfully connected to MongoDB!"
+    );
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
