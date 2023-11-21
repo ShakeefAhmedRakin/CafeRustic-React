@@ -1,7 +1,31 @@
 import { IoMdAdd } from "react-icons/io";
 import PropTypes from "prop-types";
+import useAuth from "../hooks/useAuth";
+import useAxiosSecure from "../hooks/useAxiosSecure";
+import { toast } from "sonner";
+import useFoodCart from "../hooks/useFoodCart";
 
 const MenuItem = ({ item, showButton }) => {
+  const AxiosSecure = useAxiosSecure();
+  const { user } = useAuth();
+  const [, refetch] = useFoodCart();
+  const handleAddToCart = () => {
+    if (user && user.email) {
+      const cartItem = {
+        foodId: item._id,
+        email: user.email,
+      };
+
+      AxiosSecure.post("/foodcart", cartItem).then((res) => {
+        if (res.data.insertedId) {
+          toast.success("Item added!");
+          refetch();
+        }
+      });
+    } else {
+      toast.error("Please login to order!");
+    }
+  };
   return (
     <div className="grid grid-cols-3 lg:grid-cols-5 gap-x-8 gap-y-2">
       <div>
@@ -27,9 +51,16 @@ const MenuItem = ({ item, showButton }) => {
         <div className="flex justify-end items-end">
           {/* item.showOnHome */}
           {showButton ? (
-            <button className="btn btn-xs bg-primary hover:bg-primary text-white">
-              <IoMdAdd></IoMdAdd>
-            </button>
+            user ? (
+              <button
+                className="btn btn-xs bg-primary hover:bg-primary text-white"
+                onClick={handleAddToCart}
+              >
+                <IoMdAdd></IoMdAdd>
+              </button>
+            ) : (
+              ""
+            )
           ) : (
             ""
           )}

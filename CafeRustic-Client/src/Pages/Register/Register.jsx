@@ -1,27 +1,77 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../providers/AuthProvider";
+import { toast } from "sonner";
 
 const Register = () => {
   const [seePassword, setSeePassword] = useState(false);
+  const { createUser, addUsernamePhoto, signIn, logOut } =
+    useContext(AuthContext);
 
-  const handleLogin = (e) => {
-    e.preventDefault(); // Prevent the page from refreshing
+  const navigate = useNavigate();
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+    const form = e.target;
+
+    const username = form.username.value;
+    const photoURL = form.photoURL.value;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    if (password.length < 6) {
+      toast.error("Password should be at least 6 characters or longer");
+      return;
+    } else if (!/[A-Z]/.test(password)) {
+      toast.error("Password must have an upper case letter");
+      return;
+    } else if (!/[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(password)) {
+      toast.error("Password must have a special character");
+      return;
+    }
+
+    createUser(email, password)
+      .then(() => {
+        addUsernamePhoto(username, photoURL)
+          .then(() => {
+            logOut().then(() => {
+              signIn(email, password)
+                .then((result) => {
+                  console.log(result.user);
+                  toast.success("Successfully registered. Redirecting...");
+                  e.target.reset();
+                  setTimeout(() => {
+                    navigate("/");
+                  }, 2000);
+                })
+                .catch((error) => {
+                  console.log("Error from logging in user" + error);
+                });
+            });
+          })
+          .catch((error) => {
+            console.log("Error from setting username and picture: " + error);
+          });
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
   };
   return (
     <>
       <Helmet>
-        <title>Register</title>
+        <title>Cafe Rustic | Register</title>
       </Helmet>
-      <div className="mx-auto relative">
+      <div className="mx-auto relative min-h-screen">
         <img
           src="/src/assets/form/1.jpg"
           className="absolute w-full h-full -z-10 object-cover"
         />
-        <div className="flex justify-center items-center py-32 px-2">
+        <div className="flex justify-center items-center py-8 px-2">
           <div className="py-16 px-8 md:px-12 lg:px-20 rounded-xl bg-white w-full max-w-2xl">
-            <form className="flex flex-col" onSubmit={handleLogin}>
+            <form className="flex flex-col" onSubmit={handleRegister}>
               <h1 className="dark:text-white text-center text-2xl lg:text-4xl font-semibold mb-0">
                 Register
               </h1>
@@ -51,17 +101,31 @@ const Register = () => {
                   />
                 </div>
               </div>
-              <div className="flex flex-col">
-                <label className="dark:text-white text-base lg:text-lg font-semibold mt-6 mb-3">
-                  Email
-                </label>
-                <input
-                  type="text"
-                  name="email"
-                  placeholder="Email"
-                  required
-                  className="py-3 px-4 border-[1px] rounded-xl text-sm dark:text-white dark:bg-gray-700"
-                />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="flex flex-col">
+                  <label className="dark:text-white text-base lg:text-lg font-semibold mt-6 mb-3">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Your Email"
+                    required
+                    className="py-3 px-4 border-[1px] rounded-xl text-sm dark:text-white dark:bg-gray-700"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <label className="dark:text-white text-base lg:text-lg font-semibold mt-6 mb-3">
+                    User Name
+                  </label>
+                  <input
+                    type="text"
+                    name="username"
+                    placeholder="User Name"
+                    required
+                    className="py-3 px-4 border-[1px] rounded-xl text-sm dark:text-white dark:bg-gray-700"
+                  />
+                </div>
               </div>
               <div className="flex-col flex">
                 <label className="dark:text-white text-base lg:text-lg font-semibold mt-6 mb-3">
@@ -105,12 +169,13 @@ const Register = () => {
                 </div>
                 <div className="flex flex-col">
                   <label className="dark:text-white text-base lg:text-lg font-semibold mt-6 mb-3">
-                    Photo (Optional)
+                    Photo
                   </label>
                   <input
                     type="text"
                     name="photoURL"
                     placeholder="Photo URL"
+                    required
                     className="py-3 px-4 border-[1px] rounded-xl text-sm dark:text-white dark:bg-gray-700"
                   />
                 </div>
